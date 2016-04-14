@@ -1,0 +1,16 @@
+<div class="modal " id="createModal" role="dialog">
+	<div class="row">
+		<div class="modal-dialog ">
+			<div class="modal-content col-md-12">
+				<div class="modal-header">
+					<button class="close" type="button" ng-click="createModal.hide()">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form ng-submit="createContact()" class="form-horizontal" novalidate>
+						<ng-include src="'templates/form.html'"></ng-include>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
