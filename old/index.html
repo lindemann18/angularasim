@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="" ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/ladda-themeless.min.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <p>Hello world! This is HTML5 Boilerplate.</p>
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/jcs-auto-validate.js"></script>
+        <script src="js/angular-ladda.js"></script>
+        <script src="js/spin.min.js"></script>
+        <script src="js/ladda.min.js"></script>
+        <script src="js/angular-ladda.min.js"></script>
+        <script src="js/main.js"></script>
+        <div class="container">
+            <div class="row">
+                <form  class="form col-md-6 col-md-offset-3" ng-controller="MinMaxController" ng-submit="Submit()" name="Form" novalidate>
+                    <div class="">
+                        <div class="form-group" ng-class="">
+                            <label for="">Name</label>
+                            <input type="text" class="form-control" id="" name="name" ng-model="FormInfo.name" required>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label for="">Email: </label>
+                        <input type="email" class="form-control " id="email" name="email" ng-model="FormInfo.email" required>
+                    </div>
+                    
+                        <div class="form-group">
+                            <label for="age">age</label>
+                            <input type="number" class="form-control" id="age" name="age" ng-model="FormInfo.age" min="18" max="64" required ng-min-err-type="tooYoung" ng-max-err-type="tooOld">
+                        </div>
+            
+                    
+                        <div class="form-group">
+                            <label for="username">username</label>
+                            <input type="text" class="form-control" id="username" name="username" ng-model="FormInfo.username" ng-pattern="/^[a-z0-9_]{1,32}$/i" ng-pattern-err-type="badUserName">
+                        </div>
+            
+                    
+                        <div class="form-group">
+                            <label for=""></label>
+                            <input type="text" class="form-control" id="" name="">
+                        </div>
+            
+                    
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit" ladda="submitting" data-style="expand-right">Submit</button>
+                        </div>
+            
+                    <pre>{{Form | json}}</pre>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

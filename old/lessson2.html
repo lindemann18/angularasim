@@ -1,0 +1,124 @@
+<!doctype html>
+<html class="no-js" lang="" ng-app="app2">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Contacts</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/ladda-themeless.min.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <p>Hello world! This is HTML5 Boilerplate.</p>
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/jcs-auto-validate.js"></script>
+        <script src="js/angular-resource.js"></script>
+        <script src="js/ng-infinite-scroll.min.js"></script>
+        <script src="js/angular-ladda.js"></script>
+        <script src="js/spin.min.js"></script>
+        <script src="js/ladda.min.js"></script>
+        <script src="js/angular-ladda.min.js"></script>
+        <script src="js/persons.js"></script>
+
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12" ng-controller="personsController">
+                            <form  class="form-inline well well-sm">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <div class="form-group">
+                                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="search">
+                                </div>
+
+                                <div class="form-group">
+                                    <select name="" id="" class="form-control" ng-model="order">
+                                        <option value="">Seleccionar...</option>
+                                        <option value="name">Name(asc)</option>
+                                        <option value="-name">Name(dec)</option>
+                                        <option value="email">Email(asc)</option>
+                                        <option value="-email">Email(dec)</option>
+                                    </select></div>
+                            </form>
+                            <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
+                               <thead>
+                                    <tr >
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Name 
+                                            <span class="glyphicon glyphicon-menu-up" ng-click="order= 'name'" ng-style="{'cursor':'pointer'}"></span>
+                                            <span class="glyphicon glyphicon-menu-down" ng-click="order='-name'" ng-style="{'cursor':'pointer'}"></span>
+                                        </th>
+                                        <th class="text-center">Email
+                                            <span class="glyphicon glyphicon-menu-up" ng-click="order= 'email'" ng-style="{'cursor':'pointer'}"></span>
+                                            <span class="glyphicon glyphicon-menu-down" ng-click="order='-email'" ng-style="{'cursor':'pointer'}"></span>
+                                        </th>
+                                        <th class="text-center">Birthday</th>
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                   <tr ng-repeat="person in filteredPersons = (contacts.persons | filter:sensitiveSearch | orderBy:order)" class="text-center" ng-style="{
+                                    'background-color':person.email==contacts.selectedPerson.email?'lightgray':'',
+                                    'cursor':'pointer'
+                                   }" ng-click="contacts.selectedPerson=person">
+                                       <td>{{$index}}</td>
+                                       <td>{{person.name}}</td>
+                                       <td>{{person.email}}</td>
+                                       <td>{{person.birthdate | date: 'fullDate'}}</td>
+                                   </tr>
+                                   <tr ng-show="filteredPersons.length==0">
+                                       <td colspan="4">
+                                            <div class="alert alert-info">
+                                                 <p class="text-center">
+                                                    No results found for search term '{{search}}'
+                                                </p>
+                                            </div>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                            </table>
+                        </div><!-- col-12-->
+                    </div><!-- row-->
+                </div>
+
+               
+                <div class="col-md-4" ng-controller="personsDetail">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Details</div>
+                        <div class="panel-body">
+                            <dl>
+                                <dt>Name</dt>
+                                <dd>{{contacts.selectedPerson.name}}</dd>
+                                <dt>Email</dt>
+                                <dd>{{contacts.selectedPerson.email}}</dd>
+                                <dt>Birthday</dt>
+                                <dd>{{contacts.selectedPerson.birthdate}}</dd>
+                                <dt>Address</dt>
+                                <dd>{{contacts.selectedPerson.address}}</dd>
+                                <dt>City</dt>
+                                <dd>{{contacts.selectedPerson.city}}</dd>
+                                <dt>Country</dt>
+                                <dd>{{contacts.selectedPerson.country}}</dd>
+                            </dl>
+                        </div><!-- panel-body-->
+                    </div>
+                </div>
+            </div><!--row -->
+        </div><!-- -->
+    </body>
+</html>
