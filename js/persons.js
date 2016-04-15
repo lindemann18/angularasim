@@ -1,11 +1,31 @@
-var app = angular.module("app2",['ngResource','infinite-scroll','angularSpinner','jcs-autoValidate','angular-ladda','mgcrea.ngStrap']);
+var app = angular.module("app2",['ngResource','infinite-scroll','angularSpinner','jcs-autoValidate','angular-ladda','mgcrea.ngStrap','toaster','ngAnimate','ui.router']);
 
-app.config(function($httpProvider,$resourceProvider,laddaProvider){
+app.config(function($httpProvider,$resourceProvider,laddaProvider,$datepickerProvider){
 	$httpProvider.defaults.headers.common['Authorization'] = 'Token d8f38e4e94a7c3766c35e3805d46c46500913752';
 	$resourceProvider.defaults.stripTrailingSlashes = false;
 	laddaProvider.setOption({
 		style:'expand-right'
 	});
+	angular.extend($datepickerProvider.defaults,{
+		dateFormat:'d/M/yyyy',
+		autoclose:true
+	});
+});
+
+app.config(function($stateProvider,$urlRouterProvider){
+	$stateProvider
+	.state('list',{
+		url:'/',
+		templateUrl:'templates/list.html',
+		controller:'personsController'
+	})
+
+	.state('edit',{
+		url:'/edit/:email',
+		templateUrl:'templates/edit.html',
+		controller:'personsDetail'
+	});
+	$urlRouterProvider.otherwise('/');
 });
 
 
@@ -15,9 +35,17 @@ app.factory("Contact",function($resource){
 	}});
 });
 
+app.filter('defaultImage',function(){
+	return function(input,param){;
+		if (!input)
+		{
+			input = param;
+		}
+		return input;
+	}
+});
 
-
-app.service("ContactService",function($http,Contact,$q){
+app.service("ContactService",function($http,Contact,$q,toaster){
 	
 	var self={
 		'selectedPerson': null,
@@ -79,6 +107,7 @@ app.service("ContactService",function($http,Contact,$q){
 			self.isSaving = true;
 			person.$update().then(function(){
 				self.isSaving = false;
+				toaster.pop('success',"updated "+person.name);
 			});
 		},
 		'removeContact':function(person){
@@ -89,6 +118,7 @@ app.service("ContactService",function($http,Contact,$q){
 				var index = self.persons.indexOf(person);
 				self.persons.splice(index,1);
 				self.selectedPerson = null;
+				toaster.pop('success',"Deleted "+person.name);
 			});
 		},
 		'createContact':function(person){
@@ -101,6 +131,7 @@ app.service("ContactService",function($http,Contact,$q){
 				self.page = 1;
 				self.persons = [];
 				self.loadContacts();
+				toaster.pop('success',"Created "+person.name);
 				//here is complete
 				d.resolve();
 			});

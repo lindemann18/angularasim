@@ -14,6 +14,10 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/ladda-themeless.min.css">
+        <link rel="stylesheet" href="css/bootstrap-additions.css">
+        <link rel="stylesheet" href="css/toaster.min.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <link rel="stylesheet" href="css/asim.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
@@ -39,84 +43,15 @@
         <script src="js/angular-spinner.js"></script>
         <script src="js/angular-strap.js"></script>
         <script src="js/angular-strap.tpl.js"></script>
-
+        <script src="js/toaster.min.js"></script>
+        <script src="js/angular-animate.js"></script>
+        <script src="js/angular-ui-router.js"></script>
         <div class="container" >
+        <toaster-container></toaster-container>
+
             <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12" ng-controller="personsController">
-                            <form  class="form-inline well well-sm">
-                                <span class="glyphicon glyphicon-search"></span>
-                                <div class="form-group">
-                                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="search">
-                                </div>
-
-                                <div class="form-group">
-                                    <select name="" id="" class="form-control" ng-model="order">
-                                        <option value="">Seleccionar...</option>
-                                        <option value="name">Name(asc)</option>
-                                        <option value="-name">Name(dec)</option>
-                                        <option value="email">Email(asc)</option>
-                                        <option value="-email">Email(dec)</option>
-                                    </select></div>
-                                <button class="btn btn-primary pull-right" ng-click="showCreateModal()">Create</button>
-                            </form>
-                            <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
-                               <thead>
-                                    <tr >
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">Name 
-                                            <span class="glyphicon glyphicon-menu-up" ng-click="order= 'name'" ng-style="{'cursor':'pointer'}"></span>
-                                            <span class="glyphicon glyphicon-menu-down" ng-click="order='-name'" ng-style="{'cursor':'pointer'}"></span>
-                                        </th>
-                                        <th class="text-center">Email
-                                            <span class="glyphicon glyphicon-menu-up" ng-click="order= 'email'" ng-style="{'cursor':'pointer'}"></span>
-                                            <span class="glyphicon glyphicon-menu-down" ng-click="order='-email'" ng-style="{'cursor':'pointer'}"></span>
-                                        </th>
-                                        <th class="text-center">Birthday</th>
-                                    </tr>
-                               </thead>
-                               <tbody>
-                                   <tr ng-repeat="person in contacts.persons" class="text-center" ng-style="{
-                                    'background-color':person.email==contacts.selectedPerson.email?'lightgray':'',
-                                    'cursor':'pointer'
-                                   }" ng-click="contacts.selectedPerson=person">
-                                       <td>{{$index}}</td>
-                                       <td>{{person.name}}</td>
-                                       <td>{{person.email}}</td>
-                                       <td>{{person.birthdate | date: 'fullDate'}}</td>
-                                   </tr>
-                                   
-                               </tbody>
-                            </table>
-                            <div ng-show="contacts.persons.length==0 && !contacts.isLoading">
-                                <div class="alert alert-info">
-                                     <p class="text-center">
-                                        No results found for search term '{{search}}'
-                                    </p>
-                                </div>
-                           </div>
-                            <div ng-show="contacts.isLoading" class="spinner">
-                                <span us-spinner="{radius:8,width:5,length:3,lines:9}"></span>
-                                <p>Loading...</p>
-                            </div>
-                        </div><!-- col-12-->
-                    </div><!-- row-->
-                </div>
-
-               
-                <div class="col-md-4" ng-controller="personsDetail">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Details
-                            <button class="btn btn-danger btn-sm pull-right" ladda="contacts.isDeleting" ng-click="remove()">Delete</button>
-                        </div>
-                        <div class="panel-body">
-                            <form class="form" novalidate ng-submit="save()">
-                               <ng-include src="'templates/form.html'"></ng-include>
-                            </form>
-                        </div><!-- panel-body-->
-                    </div>
-                </div>
+            <div ui-view></div>
+                
             </div><!--row -->
         </div><!-- -->
     </body>

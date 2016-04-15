@@ -1,0 +1,22 @@
+.sortable{
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    span:first-child{
+    	position:absolute;
+    	top:0;
+    }
+    span:last-child{
+    	position:absolute;
+    	bottom:0;
+    }
+    span{
+    	color:lightgray;
+    	font-size:18px;
+    }
+    span:hover{
+    	color:#002a80;
+    }
+ }
