@@ -1,0 +1,21 @@
+<html ng-app="app">
+	<head>
+		<title></title>
+	</head>
+	<script src="js/angular.min.js"></script>
+	<script src="js/test.js"></script>
+	<body ng-controller="myController">
+		
+		<table>
+			<thead></thead>
+			<tbody>
+				<tr ng-repeat="cat in categories">
+					<td>{{cat.name}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</body>
+
+
+</html>

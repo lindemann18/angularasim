@@ -17,7 +17,7 @@ app.factory("Contact",function($resource){
 
 
 
-app.service("ContactService",function($http,Contact){
+app.service("ContactService",function($http,Contact,$q){
 	
 	var self={
 		'selectedPerson': null,
@@ -92,10 +92,19 @@ app.service("ContactService",function($http,Contact){
 			});
 		},
 		'createContact':function(person){
+			var d 		  = $q.defer();
 			self.isSaving = true;
 			Contact.save(person).$promise.then(function(){
 				self.isSaving = false;
+				self.selectedPerson = null;
+				self.hasMore = true;
+				self.page = 1;
+				self.persons = [];
+				self.loadContacts();
+				//here is complete
+				d.resolve();
 			});
+			return d.promise;
 		}
 
 	};
@@ -111,7 +120,9 @@ app.controller("personsController",function($scope,$http,ContactService,$modal){
 
 	$scope.createContact = function()
 	{
-		$scope.contacts.createContact($scope.contacts.selectedPerson);
+		$scope.contacts.createContact($scope.contacts.selectedPerson).then(function(){
+			$scope.createModal.hide();
+		});
 	}
 
 	$scope.loadMore = function()
