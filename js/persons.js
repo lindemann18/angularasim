@@ -56,8 +56,15 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 		'isSaving': false,
 		'search':null,
 		'ordering':null,
-		'addPerson':function(person){
-			this.persons.push(person)
+		'getPerson':function(email){
+			for(var i = 0; i<self.persons.length; i++)
+			{
+				var obj = self.persons[i];
+				if(obj.email == email)
+				{
+					return obj;
+				}
+			}
 		},
 		'loadContacts':function(){
 			if(self.hasMore && !self.isLoading){
@@ -103,14 +110,18 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 			self.loadContacts();
 		},
 		'updateContact':function(person){
+			var d 		  = $q.defer();
 			console.log("Service called update");
 			self.isSaving = true;
 			person.$update().then(function(){
 				self.isSaving = false;
 				toaster.pop('success',"updated "+person.name);
+				d.resolve();
 			});
+			return d.promise;
 		},
 		'removeContact':function(person){
+			var d 		  = $q.defer();
 			console.log("Service called Delete");
 			self.isDeleting = true;
 			person.$remove().then(function(){
@@ -119,7 +130,9 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 				self.persons.splice(index,1);
 				self.selectedPerson = null;
 				toaster.pop('success',"Deleted "+person.name);
+				d.resolve();
 			});
+			return d.promise;
 		},
 		'createContact':function(person){
 			var d 		  = $q.defer();
@@ -202,13 +215,14 @@ app.controller("personsController",function($scope,$http,ContactService,$modal){
 	})*/
 });
 
-app.controller("personsDetail",function($scope,ContactService){
+app.controller("personsDetail",function($scope,ContactService,$stateParams,$state){
 	$scope.contacts = ContactService;
+	$scope.contacts.selectedPerson = $scope.contacts.getPerson($stateParams.email);
 
 	$scope.save = function()
 	{
 		$scope.contacts.updateContact($scope.contacts.selectedPerson);
-
+		$state.go("list");
 	}
 
 	$scope.remove = function()

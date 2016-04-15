@@ -1,67 +1,67 @@
 <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form  class="form-inline well well-sm">
-                                <span class="fa fa-search"></span>
-                                <div class="form-group">
-                                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="search">
-                                </div>
-                                <span class="fa fa-sort"></span>
-                                <div class="form-group">
-                                    <select name="" id="" class="form-control" ng-model="order">
-                                        <option value="">Seleccionar...</option>
-                                        <option value="name">Name(asc)</option>
-                                        <option value="-name">Name(dec)</option>
-                                        <option value="email">Email(asc)</option>
-                                        <option value="-email">Email(dec)</option>
-                                    </select></div>
-                                <button class="btn btn-primary pull-right" ng-click="showCreateModal()">Create</button>
-                            </form>
-                            <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
-                               <thead>
-                                    <tr >
-                                        <th class="text-center col-1">#</th>
-                                        <th class="text-center col-2"> 
-                                            <div class="sortables">
-                                                <span class="fa fa-sort-asc" ng-click="order= 'name'" ng-style="{'cursor':'pointer'}"></span>
-                                                <span class="fa fa-sort-desc" ng-click="order='-name'" ng-style="{'cursor':'pointer'}"></span>
-                                            </div>
-                                            Name
-                                        </th>
-                                        <th class="text-center col-3">
-                                            <div class="sortables">
-                                                <span class="fa fa-sort-asc" ng-click="order= 'email'" ng-style="{'cursor':'pointer'}"></span>
-                                                <span class="fa fa-sort-desc" ng-click="order='-email'" ng-style="{'cursor':'pointer'}"></span>
-                                            </div>
-                                            Email
-                                        </th>
-                                        <th class="text-center col-4">Phone</th>
-                                    </tr>
-                               </thead>
-                               <tbody>
-                                   <tr ng-repeat="person in contacts.persons" class="text-center" ng-style="{
-                                    'background-color':person.email==contacts.selectedPerson.email?'lightgray':'',
-                                    'cursor':'pointer'
-                                   }" ng-click="contacts.selectedPerson=person">
-                                       <td><img ng-src="{{person.photo | defaultImage:'css/img/default.png'}}" alt="" class="img-circle profile-photo"></td>
-                                       <td>{{person.name}}</td>
-                                       <td>{{person.email}}</td>
-                                       <td>{{person.phonenumber}}</td>
-                                   </tr>
-                                   
-                               </tbody>
-                            </table>
-                            <div ng-show="contacts.persons.length==0 && !contacts.isLoading">
-                                <div class="alert alert-info">
-                                     <p class="text-center">
-                                        No results found for search term '{{search}}'
-                                    </p>
-                                </div>
-                           </div>
-                            <div ng-show="contacts.isLoading" class="spinner">
-                                <span us-spinner="{radius:8,width:5,length:3,lines:9}"></span>
-                                <p>Loading...</p>
-                            </div>
-                        </div><!-- col-12-->
-                    </div><!-- row-->
+    <div class="row">
+        <div class="col-md-12">
+            <form  class="form-inline well well-sm">
+                <span class="fa fa-search"></span>
+                <div class="form-group">
+                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="search">
                 </div>
+                <span class="fa fa-sort"></span>
+                <div class="form-group">
+                    <select name="" id="" class="form-control" ng-model="order">
+                        <option value="">Seleccionar...</option>
+                        <option value="name">Name(asc)</option>
+                        <option value="-name">Name(dec)</option>
+                        <option value="email">Email(asc)</option>
+                        <option value="-email">Email(dec)</option>
+                    </select></div>
+                <button class="btn btn-primary pull-right" ng-click="showCreateModal()">Create</button>
+            </form>
+            <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
+               <thead>
+                    <tr >
+                        <th class="text-center col-1">#</th>
+                        <th class="text-center col-2"> 
+                            <div class="sortables">
+                                <span class="fa fa-sort-asc" ng-click="order= 'name'" ng-style="{'cursor':'pointer'}"></span>
+                                <span class="fa fa-sort-desc" ng-click="order='-name'" ng-style="{'cursor':'pointer'}"></span>
+                            </div>
+                            Name
+                        </th>
+                        <th class="text-center col-3">
+                            <div class="sortables">
+                                <span class="fa fa-sort-asc" ng-click="order= 'email'" ng-style="{'cursor':'pointer'}"></span>
+                                <span class="fa fa-sort-desc" ng-click="order='-email'" ng-style="{'cursor':'pointer'}"></span>
+                            </div>
+                            Email
+                        </th>
+                        <th class="text-center col-4">Phone</th>
+                    </tr>
+               </thead>
+               <tbody>
+                   <tr ng-repeat="person in contacts.persons" class="text-center" ng-style="{
+                    'background-color':person.email==contacts.selectedPerson.email?'lightgray':'',
+                    'cursor':'pointer'
+                   }"  ui-sref="edit({email:person.email})"> 
+                       <td><img ng-src="{{person.photo | defaultImage:'css/img/default.png'}}" alt="" class="img-circle profile-photo"></td>
+                       <td>{{person.name}}</td>
+                       <td>{{person.email}}</td>
+                       <td>{{person.phonenumber}}</td>
+                   </tr>
+                   
+               </tbody>
+            </table>
+            <div ng-show="contacts.persons.length==0 && !contacts.isLoading">
+                <div class="alert alert-info">
+                     <p class="text-center">
+                        No results found for search term '{{search}}'
+                    </p>
+                </div>
+           </div>
+            <div ng-show="contacts.isLoading" class="spinner">
+                <span us-spinner="{radius:8,width:5,length:3,lines:9}"></span>
+                <p>Loading...</p>
+            </div>
+        </div><!-- col-12-->
+    </div><!-- row-->
+</div>
