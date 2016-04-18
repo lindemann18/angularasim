@@ -16,20 +16,37 @@ app.config(function($stateProvider,$urlRouterProvider){
 	$stateProvider
 	.state('list',{
 		url:'/',
-		templateUrl:'templates/list.html',
-		controller:'personsController'
+		views:{
+			'main':{
+				templateUrl:'templates/list.html',
+				controller:'personsController'
+			},
+			'search':{
+				templateUrl:'templates/searchform.html',
+				controller:'personsController'
+			}
+		}
+		
 	})
 
 	.state('edit',{
 		url:'/edit/:email',
-		templateUrl:'templates/edit.html',
-		controller:'personsDetail'
+		views:{
+			'main':{
+				templateUrl:'templates/edit.html',
+				controller:'personsDetail'
+			}
+		}
 	})
 
 	.state('create',{
 		url:'/create',
-		templateUrl:'templates/edit.html',
-		controller:'personsCreate'
+		views:{
+			'main':{
+				templateUrl:'templates/edit.html',
+				controller:'personsCreate'
+			}
+		}
 	});
 
 	$urlRouterProvider.otherwise('/');
@@ -180,26 +197,50 @@ app.service("ContactService",function($http,Contact,$q,toaster,$rootScope){
 	return self;
 });
 
+app.directive("ccSpinner",function(){
+	return{
+		'transclude':true,
+		'restrict':'AE',
+		'templateUrl':"templates/spinner.html",
+		'scope':{
+			'isLoading':'=',
+			'message':'@'
+		}
+	}
+});
+
+app.directive("ccCard",function(){
+	return{
+		'restrict':'AE',
+		'templateUrl':"templates/card.html",
+		'scope':{
+			'user':'='
+		},
+		'controller':function($scope,ContactService){
+			$scope.isDeleting = false;
+			$scope.deleteUser = function(){
+			$scope.isDeleting = false;
+				ContactService.removeContact($scope.user).then(function(){
+					//
+					$scope.isDeleting = false;
+				});
+			}
+		}
+	}
+});
+
 app.controller("personsController",function($scope,$http,ContactService,$modal){
 	$scope.selectedPerson = ContactService.selectedPerson;
 	$scope.search  		  = "";
 	$scope.order 		  = "name";
 	$scope.contacts = ContactService;
 
+	
+
 	$scope.loadMore = function()
 	{
 		$scope.contacts.loadMore();
 	}
-
-	$scope.showCreateModal = function()
-	{
-		$scope.contacts.selectedPerson = {};
-		$scope.createModal = $modal({
-			scope:$scope,
-			template:'templates/modal.create.tpl.html',
-			show:true
-		});
-	}//showCreateModal	
 
 	$scope.selectPerson = function(person)
 	{
@@ -243,6 +284,13 @@ app.controller("personsCreate",function($scope,ContactService){
 	$scope.selectedPerson = ContactService.selectedPerson;
 	$scope.mode 		  = "Create"
 
+	$scope.remove = function()
+	{
+		$scope.contacts.removeContact($scope.contacts.selectedPerson).then(function(){
+			$state.go("list");
+		});
+	}
+
 	$scope.save = function()
 	{
 		$scope.contacts.createContact($scope.contacts.selectedPerson).then(function(){
@@ -250,3 +298,5 @@ app.controller("personsCreate",function($scope,ContactService){
 		});
 	}
 });
+
+
