@@ -1,0 +1,34 @@
+{
+  "name": "angularasim",
+  "version": "1.0.0",
+  "description": "me",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "angular": "^1.5.3",
+    "bower": "^1.7.9",
+    "git": "^0.1.5",
+    "angular-ladda": "^0.3.3",
+    "bootstrap": "^3.3.6"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindemann18/angularasim.git"
+  },
+  "author": "chuvakovich zukovksy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lindemann18/angularasim/issues"
+  },
+  "homepage": "https://github.com/lindemann18/angularasim#readme"
+}

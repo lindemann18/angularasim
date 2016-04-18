@@ -1,21 +1,21 @@
-<div class="col-md-12">
+<div class="col-md-12 ListContainer">
     <div class="row">
         <div class="col-md-12">
             <form  class="form-inline well well-sm">
                 <span class="fa fa-search"></span>
                 <div class="form-group">
-                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="search">
+                    <input type="text" id="" class="form-control" placeholder="Search name..." ng-model="contacts.search">
                 </div>
                 <span class="fa fa-sort"></span>
                 <div class="form-group">
-                    <select name="" id="" class="form-control" ng-model="order">
+                    <select name="" id="" class="form-control" ng-model="contacts.ordering">
                         <option value="">Seleccionar...</option>
                         <option value="name">Name(asc)</option>
                         <option value="-name">Name(dec)</option>
                         <option value="email">Email(asc)</option>
                         <option value="-email">Email(dec)</option>
                     </select></div>
-                <button class="btn btn-primary pull-right" ng-click="showCreateModal()">Create</button>
+                
             </form>
             <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
                <thead>

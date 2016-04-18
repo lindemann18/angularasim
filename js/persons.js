@@ -24,7 +24,14 @@ app.config(function($stateProvider,$urlRouterProvider){
 		url:'/edit/:email',
 		templateUrl:'templates/edit.html',
 		controller:'personsDetail'
+	})
+
+	.state('create',{
+		url:'/create',
+		templateUrl:'templates/edit.html',
+		controller:'personsCreate'
 	});
+
 	$urlRouterProvider.otherwise('/');
 });
 
@@ -45,7 +52,7 @@ app.filter('defaultImage',function(){
 	}
 });
 
-app.service("ContactService",function($http,Contact,$q,toaster){
+app.service("ContactService",function($http,Contact,$q,toaster,$rootScope){
 	
 	var self={
 		'selectedPerson': null,
@@ -55,7 +62,7 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 		'persons': [],
 		'isSaving': false,
 		'search':null,
-		'ordering':null,
+		'ordering':"name",
 		'getPerson':function(email){
 			for(var i = 0; i<self.persons.length; i++)
 			{
@@ -94,19 +101,17 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 				self.loadContacts();
 			}
 		},
-		'doSearch':function(search){
+		'doSearch':function(){
 			self.hasMore = true;
 			self.page    = 1;
 			self.persons = [];
-			self.search = search;
 			self.loadContacts();
 
 		},
-		'doOrder':function(order){
+		'doOrder':function(){
 			self.hasMore  = true;
 			self.page     = 1;
 			self.persons  = [];
-			self.ordering = order;
 			self.loadContacts();
 		},
 		'updateContact':function(person){
@@ -149,10 +154,29 @@ app.service("ContactService",function($http,Contact,$q,toaster){
 				d.resolve();
 			});
 			return d.promise;
+		},
+		'watchFilters':function(){
+			
+			$rootScope.$watch(function(){	
+				return self.search;
+			}, function(newVal){
+				if(angular.isDefined(newVal)){
+					self.doSearch();
+				}
+			});
+
+			$rootScope.$watch(function(){
+				return self.ordering;
+			},function(newVal){
+				if(angular.isDefined(newVal)){
+					self.doOrder();
+				}
+			});
 		}
 
 	};
 	self.loadContacts();
+	self.watchFilters();
 	return self;
 });
 
@@ -161,13 +185,6 @@ app.controller("personsController",function($scope,$http,ContactService,$modal){
 	$scope.search  		  = "";
 	$scope.order 		  = "name";
 	$scope.contacts = ContactService;
-
-	$scope.createContact = function()
-	{
-		$scope.contacts.createContact($scope.contacts.selectedPerson).then(function(){
-			$scope.createModal.hide();
-		});
-	}
 
 	$scope.loadMore = function()
 	{
@@ -196,18 +213,7 @@ app.controller("personsController",function($scope,$http,ContactService,$modal){
 		
 	}
 
-	$scope.$watch('search',function(newVal,oldVal){
-		if(angular.isDefined(newVal)){
-			$scope.contacts.doSearch(newVal);
-		}
-	});
-
-
-	$scope.$watch('order',function(newVal,oldVal){
-		if(angular.isDefined(newVal)){
-			$scope.contacts.doOrder(newVal);
-		}
-	});
+	
 		
 	/*$http.get("persons.json").success(function(data){
 		$scope.persons = data;
@@ -216,6 +222,7 @@ app.controller("personsController",function($scope,$http,ContactService,$modal){
 });
 
 app.controller("personsDetail",function($scope,ContactService,$stateParams,$state){
+	$scope.mode = "Edit"
 	$scope.contacts = ContactService;
 	$scope.contacts.selectedPerson = $scope.contacts.getPerson($stateParams.email);
 
@@ -232,3 +239,14 @@ app.controller("personsDetail",function($scope,ContactService,$stateParams,$stat
 
 });
 
+app.controller("personsCreate",function($scope,ContactService){
+	$scope.selectedPerson = ContactService.selectedPerson;
+	$scope.mode 		  = "Create"
+
+	$scope.save = function()
+	{
+		$scope.contacts.createContact($scope.contacts.selectedPerson).then(function(){
+			$state.go("list");
+		});
+	}
+});

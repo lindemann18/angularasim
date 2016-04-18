@@ -1,12 +1,23 @@
 <div class="col-md-8 col-md-offset-2" >
+    <form class="form" novalidate ng-submit="save()">
     <div class="panel panel-default">
-        <div class="panel-heading">Details
-            <button class="btn btn-danger btn-sm pull-right" ladda="contacts.isDeleting" ng-click="remove()">Delete</button>
-        </div>
+        <div class="panel-heading">{{mode}}
+           <div class="pull-right">
+                 <button class="btn btn-primary btn-sm pull-right" ladda="contacts.isSaving" type="submit">
+                     <span ng-if="mode == 'Edit'">Save</span>
+                     <span ng-if="mode == 'Create'">Create</span>
+                 </button>
+
+                <button class="btn btn-danger btn-sm pull-right" ladda="contacts.isDeleting" ng-click="remove()" ng-if="mode == 'Edit'">Delete</button>
+           </div>
+       
+            <div class="clearfix"></div>
+         </div>
         <div class="panel-body">
-            <form class="form" novalidate ng-submit="save()">
+            
                <ng-include src="'templates/form.html'"></ng-include>
-            </form>
+           
         </div><!-- panel-body-->
     </div>
+     </form>
 </div>
